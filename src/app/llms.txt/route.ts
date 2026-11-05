@@ -23,7 +23,7 @@ DigitalLife Tech специализируется на скоростной ра
 
 ## Контакты для заказа
 - Домен: https://digital-life.tech
-- Telegram: https://t.me/digital_life_tech
+- Telegram: https://t.me/tourist217
 - Автор: Игорь Определёнов (вайбкодер & AI инженер)
 
 ## Дополнительная информация

@@ -114,7 +114,7 @@ export default function ProjectCalculator() {
         `• Срок: ~${totalDays} дн.\n\n` +
         `Давай обсудим детали!`
     );
-    return `https://t.me/digital_life_tech?text=${text}`;
+    return `https://t.me/tourist217?text=${text}`;
   };
 
   return (
@@ -287,7 +287,7 @@ export default function ProjectCalculator() {
             </a>
 
             <p className="text-[10px] text-center text-slate-500 mt-2">
-              Откроет чат с автором (@digital_life_tech) с уже заполненным текстом заявки.
+              Откроет чат с автором (@tourist217) с уже заполненным текстом заявки. Сайт не сохраняет ваши данные.
             </p>
           </div>
         </div>

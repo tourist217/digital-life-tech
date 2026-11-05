@@ -110,7 +110,7 @@ export default function CasesPage() {
                 </Link>
 
                 <a
-                  href={`https://t.me/digital_life_tech?text=${encodeURIComponent(
+                  href={`https://t.me/tourist217?text=${encodeURIComponent(
                     `Привет! Понравился кейс "${c.title}". Хочу сделать похожий проект!`
                   )}`}
                   target="_blank"

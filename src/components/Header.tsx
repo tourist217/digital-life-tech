@@ -63,7 +63,7 @@ export default function Header() {
             </div>
 
             <a
-              href="https://t.me/digital_life_tech"
+              href="https://t.me/tourist217"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium text-sm shadow-md shadow-cyan-500/20 hover:shadow-cyan-500/40 hover:opacity-95 transition-all duration-200"
@@ -77,7 +77,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <div className="flex md:hidden items-center gap-2">
             <a
-              href="https://t.me/digital_life_tech"
+              href="https://t.me/tourist217"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg bg-cyan-600/20 text-cyan-400 border border-cyan-500/30 text-xs flex items-center gap-1"

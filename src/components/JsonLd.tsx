@@ -27,7 +27,7 @@ export default function JsonLd({ type = 'home', articleData }: JsonLdProps) {
       name: 'Игорь Определёнов',
       jobTitle: 'Вайбкодер & AI Инженер',
       sameAs: [
-        'https://t.me/digital_life_tech'
+        'https://t.me/tourist217'
       ]
     },
     areaServed: 'Worldwide',
@@ -40,7 +40,7 @@ export default function JsonLd({ type = 'home', articleData }: JsonLdProps) {
       'AI-автоматизация'
     ],
     sameAs: [
-      'https://t.me/digital_life_tech'
+      'https://t.me/tourist217'
     ]
   };
 

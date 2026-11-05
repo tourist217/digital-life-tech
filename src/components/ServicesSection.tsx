@@ -71,7 +71,7 @@ export default function ServicesSection() {
                 </div>
 
                 <a
-                  href={`https://t.me/digital_life_tech?text=${encodeURIComponent(
+                  href={`https://t.me/tourist217?text=${encodeURIComponent(
                     `Привет! Интересует услуга "${service.title}". Давай обсудим!`
                   )}`}
                   target="_blank"

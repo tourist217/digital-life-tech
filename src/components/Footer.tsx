@@ -78,13 +78,13 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a
-                  href="https://t.me/digital_life_tech"
+                  href="https://t.me/tourist217"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:text-cyan-400 transition-colors"
                 >
                   <Send className="w-4 h-4 text-cyan-400" />
-                  <span>Telegram: @digital_life_tech</span>
+                  <span>Telegram: @tourist217</span>
                 </a>
               </li>
               <li>
@@ -123,7 +123,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {currentYear} digital-life.tech. Все права защищены. Разработка и вайбкодинг на Next.js & React 19.</p>
           <p className="text-slate-400">
-            Оптимизировано под Google SEO, Яндекс Нейро и Generative Engine Optimization (GEO).
+            Сайт не собирает и не обрабатывает персональные данные (152-ФЗ). Связь напрямую в Telegram @tourist217.
           </p>
         </div>
       </div>

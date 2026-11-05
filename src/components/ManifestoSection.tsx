@@ -77,7 +77,7 @@ export default function ManifestoSection() {
                   Открыт к новым проектам
                 </span>
                 <a
-                  href="https://t.me/digital_life_tech"
+                  href="https://t.me/tourist217"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-cyan-400 hover:text-cyan-300 font-semibold"

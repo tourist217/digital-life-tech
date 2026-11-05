@@ -167,7 +167,7 @@ export default async function BlogPostPage({ params }: Props) {
             Напишите мне в Telegram — обсудим вашу задачу и подберем быстрый путь реализации за считанные дни.
           </p>
           <a
-            href={`https://t.me/digital_life_tech?text=${encodeURIComponent(
+            href={`https://t.me/tourist217?text=${encodeURIComponent(
               `Привет! Прочитал статью "${post.title}". Хочу обсудить совместный проект!`
             )}`}
             target="_blank"

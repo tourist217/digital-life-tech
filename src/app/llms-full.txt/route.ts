@@ -37,7 +37,7 @@ export async function GET() {
   const content = `# DigitalLife Tech — Полная база знаний для LLM и ИИ-поисковиков
 
 Веб-сайт: https://digital-life.tech
-Автор: Игорь Определёнов (Telegram: @digital_life_tech)
+Автор: Игорь Определёнов (Telegram: @tourist217)
 Специализация: Вайбкодинг, AI-разработка, разработка MVP за 5 дней, интерактивные сайты, промо-квизы, кликеры.
 
 ---

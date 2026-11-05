@@ -146,7 +146,7 @@ export default async function CaseDetailPage({ params }: Props) {
             Соберем кликер, викторину или веб-сервис под ключ за считанные дни с гарантией и чистым кодом.
           </p>
           <a
-            href={`https://t.me/digital_life_tech?text=${encodeURIComponent(
+            href={`https://t.me/tourist217?text=${encodeURIComponent(
               `Привет! Обсуждаем проект по мотивам кейса "${c.title}".`
             )}`}
             target="_blank"
