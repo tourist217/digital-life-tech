@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { glossaryData, GlossaryTermItem } from '@/data/glossary';
 import { Sparkles, ArrowRight, X, BookOpen, Zap } from 'lucide-react';
@@ -23,7 +23,8 @@ export default function GlossaryTerm({ slug, children, fallbackText }: GlossaryT
   const termData: GlossaryTermItem | undefined = glossaryData.find((item) => item.slug === slug);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
-  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const openTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const closeTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Detect mobile vs desktop
   useEffect(() => {
@@ -36,7 +37,7 @@ export default function GlossaryTerm({ slug, children, fallbackText }: GlossaryT
   }, []);
 
   // Calculate card position on desktop to prevent viewport overflow
-  const calculatePosition = () => {
+  const calculatePosition = useCallback(() => {
     if (!triggerRef.current) return;
     const rect = triggerRef.current.getBoundingClientRect();
     const cardWidth = 320;
@@ -51,24 +52,45 @@ export default function GlossaryTerm({ slug, children, fallbackText }: GlossaryT
 
     // Check vertical space (place above if not enough room below)
     const spaceBelow = window.innerHeight - rect.bottom;
-    const placeAbove = spaceBelow < cardHeight + 16 && rect.top > cardHeight + 16;
-    const top = placeAbove ? rect.top - 8 : rect.bottom + 8;
+    const placeAbove = spaceBelow < cardHeight + 20 && rect.top > cardHeight + 20;
+    const top = placeAbove ? rect.top - 6 : rect.bottom + 6;
 
     setCardPosition({ top, left, placeAbove });
+  }, []);
+
+  const clearAllTimers = () => {
+    if (openTimerRef.current) clearTimeout(openTimerRef.current);
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
   };
 
   const handleMouseEnter = () => {
     if (isMobile) return;
-    hoverTimerRef.current = setTimeout(() => {
+    clearAllTimers();
+    openTimerRef.current = setTimeout(() => {
       calculatePosition();
       setIsOpen(true);
-    }, 160);
+    }, 120);
   };
 
   const handleMouseLeave = () => {
     if (isMobile) return;
-    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-    setIsOpen(false);
+    if (openTimerRef.current) clearTimeout(openTimerRef.current);
+    // Grace period timer: user has 280ms to move cursor over the card
+    closeTimerRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 280);
+  };
+
+  const handleCardMouseEnter = () => {
+    clearAllTimers();
+    setIsOpen(true);
+  };
+
+  const handleCardMouseLeave = () => {
+    if (isMobile) return;
+    closeTimerRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 280);
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -78,7 +100,7 @@ export default function GlossaryTerm({ slug, children, fallbackText }: GlossaryT
       setIsOpen(true);
     } else {
       calculatePosition();
-      setIsOpen(!isOpen);
+      setIsOpen((prev) => !prev);
     }
   };
 
@@ -133,22 +155,23 @@ export default function GlossaryTerm({ slug, children, fallbackText }: GlossaryT
         </span>
       </button>
 
-      {/* Desktop Hover Card (fixed portal-like positioning) */}
+      {/* Desktop Hover Card */}
       {!isMobile && isOpen && (
         <div
           ref={cardRef}
-          onMouseEnter={() => {
-            if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-            setIsOpen(true);
-          }}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={handleCardMouseEnter}
+          onMouseLeave={handleCardMouseLeave}
           style={{
             position: 'fixed',
             top: cardPosition.placeAbove ? 'auto' : `${cardPosition.top}px`,
             bottom: cardPosition.placeAbove ? `${window.innerHeight - cardPosition.top}px` : 'auto',
             left: `${cardPosition.left}px`,
           }}
-          className="z-50 w-80 p-4 rounded-2xl bg-slate-950/95 backdrop-blur-xl border border-cyan-500/30 shadow-2xl shadow-cyan-950/80 text-left text-slate-200 animate-in fade-in zoom-in-95 duration-150"
+          className={`z-50 w-80 p-4 rounded-2xl bg-slate-950/95 backdrop-blur-xl border border-cyan-500/40 shadow-2xl shadow-cyan-950/80 text-left text-slate-200 animate-in fade-in duration-150 ${
+            cardPosition.placeAbove
+              ? 'before:content-[""] before:absolute before:-bottom-3 before:left-0 before:right-0 before:h-4'
+              : 'before:content-[""] before:absolute before:-top-3 before:left-0 before:right-0 before:h-4'
+          }`}
         >
           {/* Header */}
           <div className="flex items-center justify-between gap-2 pb-2 mb-2 border-b border-slate-800">
@@ -179,7 +202,8 @@ export default function GlossaryTerm({ slug, children, fallbackText }: GlossaryT
             <span className="text-[10px] text-slate-500 font-mono">{termData.categoryLabel}</span>
             <Link
               href={`/glossary/${termData.slug}`}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
+              onClick={() => setIsOpen(false)}
+              className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500 hover:text-slate-950 border border-cyan-500/40 transition-all cursor-pointer"
             >
               <span>В глоссарий</span>
               <ArrowRight className="w-3 h-3" />

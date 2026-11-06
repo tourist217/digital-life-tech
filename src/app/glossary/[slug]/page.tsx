@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { glossaryData } from '@/data/glossary';
 import { ArrowLeft, BookOpen, Sparkles, Send, Zap, CheckCircle2, Layers, Tag } from 'lucide-react';
+import FormattedArticleContent from '@/components/FormattedArticleContent';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -113,47 +114,8 @@ export default async function GlossaryDetailPage({ params }: Props) {
         </div>
 
         {/* Full Definition Markdown Content */}
-        <div className="prose prose-invert prose-cyan max-w-none text-slate-200 text-base leading-relaxed space-y-6 my-10">
-          {term.fullDefinition.split('\n\n').map((paragraph, idx) => {
-            const trimmed = paragraph.trim();
-            if (!trimmed) return null;
-
-            if (trimmed.startsWith('### ')) {
-              return (
-                <h3 key={idx} className="text-xl sm:text-2xl font-bold text-white pt-4 pb-1">
-                  {trimmed.replace('### ', '')}
-                </h3>
-              );
-            }
-
-            if (trimmed.startsWith('- ')) {
-              const items = trimmed.split('\n- ').map((item) => item.replace(/^- /, ''));
-              return (
-                <ul key={idx} className="space-y-2 list-disc pl-5 text-slate-300">
-                  {items.map((it, i) => (
-                    <li key={i}>{it}</li>
-                  ))}
-                </ul>
-              );
-            }
-
-            if (trimmed.startsWith('1. ')) {
-              const items = trimmed.split('\n').filter(Boolean);
-              return (
-                <ol key={idx} className="space-y-2 list-decimal pl-5 text-slate-300">
-                  {items.map((it, i) => (
-                    <li key={i}>{it.replace(/^\d+\.\s*/, '')}</li>
-                  ))}
-                </ol>
-              );
-            }
-
-            return (
-              <p key={idx} className="leading-relaxed">
-                {trimmed}
-              </p>
-            );
-          })}
+        <div className="my-10">
+          <FormattedArticleContent content={term.fullDefinition} />
         </div>
 
         {/* Key Benefits */}

@@ -7,39 +7,79 @@ interface Props {
   content: string;
 }
 
-export default function FormattedArticleContent({ content }: Props) {
-  // Helper to parse [[slug|text]] or [[slug]]
-  const parseInlineTerms = (text: string) => {
-    const regex = /\[\[([a-z0-9-]+)(?:\|([^\]]+))?\]\]/g;
-    const parts: React.ReactNode[] = [];
-    let lastIndex = 0;
-    let match: RegExpExecArray | null;
+/**
+ * Parses inline tokens:
+ * 1. [[slug|custom text]] or [[slug]] -> GlossaryTerm popover
+ * 2. **bold** -> <strong>
+ * 3. *italic* -> <em>
+ * 4. `code` -> <code>
+ */
+export function renderRichInline(text: string): React.ReactNode {
+  // Regex matching all token types
+  const tokenRegex = /(\[\[[a-z0-9-]+(?:\|[^\]]+)?\]\]|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
 
-    while ((match = regex.exec(text)) !== null) {
-      // Push text before match
-      if (match.index > lastIndex) {
-        parts.push(text.substring(lastIndex, match.index));
-      }
+  while ((match = tokenRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
 
-      const slug = match[1];
-      const customText = match[2];
+    const token = match[0];
+    const key = `token-${match.index}`;
 
+    if (token.startsWith('[[') && token.endsWith(']]')) {
+      // [[slug|customText]] or [[slug]]
+      const inner = token.slice(2, -2);
+      const [slug, customText] = inner.split('|');
+      // If customText contained bold **text**, strip asterisks inside
+      const cleanCustomText = customText ? customText.replace(/\*\*/g, '') : undefined;
       parts.push(
-        <GlossaryTerm key={`${slug}-${match.index}`} slug={slug}>
-          {customText || undefined}
+        <GlossaryTerm key={key} slug={slug}>
+          {cleanCustomText}
         </GlossaryTerm>
       );
-
-      lastIndex = regex.lastIndex;
+    } else if (token.startsWith('**') && token.endsWith('**')) {
+      // **bold**
+      const boldText = token.slice(2, -2);
+      parts.push(
+        <strong key={key} className="font-bold text-white">
+          {renderRichInline(boldText)}
+        </strong>
+      );
+    } else if (token.startsWith('*') && token.endsWith('*')) {
+      // *italic*
+      const italicText = token.slice(1, -1);
+      parts.push(
+        <em key={key} className="italic text-slate-300">
+          {italicText}
+        </em>
+      );
+    } else if (token.startsWith('`') && token.endsWith('`')) {
+      // `code`
+      const codeText = token.slice(1, -1);
+      parts.push(
+        <code
+          key={key}
+          className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-cyan-300 font-mono text-xs"
+        >
+          {codeText}
+        </code>
+      );
     }
 
-    if (lastIndex < text.length) {
-      parts.push(text.substring(lastIndex));
-    }
+    lastIndex = tokenRegex.lastIndex;
+  }
 
-    return parts.length > 0 ? parts : text;
-  };
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
 
+  return parts.length > 0 ? parts : text;
+}
+
+export default function FormattedArticleContent({ content }: Props) {
   const paragraphs = content.split('\n\n');
 
   return (
@@ -54,7 +94,7 @@ export default function FormattedArticleContent({ content }: Props) {
               key={idx}
               className="text-2xl sm:text-3xl font-bold text-white pt-6 pb-2 border-b border-slate-800"
             >
-              {parseInlineTerms(trimmed.replace('## ', ''))}
+              {renderRichInline(trimmed.replace('## ', ''))}
             </h2>
           );
         }
@@ -62,7 +102,7 @@ export default function FormattedArticleContent({ content }: Props) {
         if (trimmed.startsWith('### ')) {
           return (
             <h3 key={idx} className="text-xl font-bold text-cyan-300 pt-4 pb-1">
-              {parseInlineTerms(trimmed.replace('### ', ''))}
+              {renderRichInline(trimmed.replace('### ', ''))}
             </h3>
           );
         }
@@ -72,7 +112,7 @@ export default function FormattedArticleContent({ content }: Props) {
           return (
             <ol key={idx} className="space-y-2 list-decimal pl-5 text-slate-300">
               {lines.map((line, lIdx) => (
-                <li key={lIdx}>{parseInlineTerms(line.replace(/^\d+\.\s*/, ''))}</li>
+                <li key={lIdx}>{renderRichInline(line.replace(/^\d+\.\s*/, ''))}</li>
               ))}
             </ol>
           );
@@ -83,7 +123,7 @@ export default function FormattedArticleContent({ content }: Props) {
           return (
             <ul key={idx} className="space-y-2 list-disc pl-5 text-slate-300">
               {lines.map((line, lIdx) => (
-                <li key={lIdx}>{parseInlineTerms(line)}</li>
+                <li key={lIdx}>{renderRichInline(line)}</li>
               ))}
             </ul>
           );
@@ -91,7 +131,7 @@ export default function FormattedArticleContent({ content }: Props) {
 
         return (
           <p key={idx} className="leading-relaxed">
-            {parseInlineTerms(trimmed)}
+            {renderRichInline(trimmed)}
           </p>
         );
       })}
