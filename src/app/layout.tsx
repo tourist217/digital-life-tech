@@ -3,6 +3,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
+import YandexMetrika from '@/components/YandexMetrika';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://digital-life.tech'),
@@ -69,6 +70,7 @@ export default function RootLayout({
         <JsonLd type="home" />
       </head>
       <body className="min-h-screen flex flex-col bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-950">
+        <YandexMetrika counterId={114104123} />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
