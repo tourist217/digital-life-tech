@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { postsData } from '@/data/posts';
 import { ArrowLeft, Calendar, Clock, MessageSquareQuote, Send, Sparkles, UserCheck } from 'lucide-react';
 import JsonLd from '@/components/JsonLd';
+import FormattedArticleContent from '@/components/FormattedArticleContent';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -113,35 +114,8 @@ export default async function BlogPostPage({ params }: Props) {
           </aside>
         )}
 
-        {/* Post Content */}
-        <div className="prose prose-invert prose-cyan max-w-none text-slate-200 text-base leading-relaxed space-y-6">
-          {post.content.split('\n\n').map((paragraph, idx) => {
-            const trimmed = paragraph.trim();
-            if (!trimmed) return null;
-
-            if (trimmed.startsWith('## ')) {
-              return (
-                <h2 key={idx} className="text-2xl sm:text-3xl font-bold text-white pt-6 pb-2 border-b border-slate-800">
-                  {trimmed.replace('## ', '')}
-                </h2>
-              );
-            }
-
-            if (trimmed.startsWith('### ')) {
-              return (
-                <h3 key={idx} className="text-xl font-bold text-cyan-300 pt-4 pb-1">
-                  {trimmed.replace('### ', '')}
-                </h3>
-              );
-            }
-
-            return (
-              <p key={idx} className="leading-relaxed">
-                {trimmed}
-              </p>
-            );
-          })}
-        </div>
+        {/* Post Content with Interactive Glossary Terms */}
+        <FormattedArticleContent content={post.content} />
 
         {/* Tags */}
         <div className="mt-12 pt-6 border-t border-slate-800 flex flex-wrap gap-2">

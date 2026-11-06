@@ -2,8 +2,18 @@ import { NextResponse } from 'next/server';
 import { casesData } from '@/data/cases';
 import { postsData } from '@/data/posts';
 import { faqData } from '@/data/services';
+import { glossaryData } from '@/data/glossary';
 
 export async function GET() {
+  const glossarySection = glossaryData
+    .map(
+      (g) => `### ${g.term} (${g.originalTerm || g.term}) [${g.categoryLabel}]
+- Ссылка: https://digital-life.tech/glossary/${g.slug}
+- Определение: ${g.shortDefinition}
+- Практическое применение: ${g.practicalContext}`
+    )
+    .join('\n\n');
+
   const casesSection = casesData
     .map(
       (c) => `### ${c.title}
@@ -54,6 +64,11 @@ ${postsSection}
 
 ## 3. База вопросов и ответов (FAQ)
 ${faqSection}
+
+---
+
+## 4. Глоссарий терминов по ИИ и разработке
+${glossarySection}
 `;
 
   return new NextResponse(content, {

@@ -27,6 +27,7 @@ DigitalLife Tech специализируется на скоростной ра
 - Автор: Игорь Определёнов (вайбкодер & AI инженер)
 
 ## Дополнительная информация
+- Глоссарий терминов по ИИ: https://digital-life.tech/glossary
 - Полная база знаний для LLM: https://digital-life.tech/llms-full.txt
 - Карта сайта (Sitemap): https://digital-life.tech/sitemap.xml
 `;

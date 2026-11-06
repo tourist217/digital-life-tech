@@ -34,7 +34,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-300">
+          <nav className="hidden md:flex items-center gap-6 lg:gap-7 text-sm font-medium text-slate-300">
             <Link href="/#services" className="hover:text-cyan-400 transition-colors">
               Услуги
             </Link>
@@ -46,6 +46,12 @@ export default function Header() {
             </Link>
             <Link href="/blog" className="hover:text-cyan-400 transition-colors">
               Блог & Мысли
+            </Link>
+            <Link href="/glossary" className="hover:text-cyan-400 transition-colors flex items-center gap-1">
+              Глоссарий
+              <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.2 rounded-full border border-cyan-500/30">
+                AI Hub
+              </span>
             </Link>
             <Link href="/#calculator" className="hover:text-cyan-400 transition-colors">
               Калькулятор
@@ -121,6 +127,13 @@ export default function Header() {
               className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-900 hover:text-cyan-400"
             >
               Блог, новости и заметки
+            </Link>
+            <Link
+              href="/glossary"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-900 hover:text-cyan-400"
+            >
+              Глоссарий терминов по ИИ
             </Link>
             <Link
               href="/#calculator"

@@ -58,6 +58,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/glossary" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 text-cyan-300">
+                  <span>Глоссарий терминов</span>
+                  <span className="text-[10px] bg-cyan-950 px-1.5 py-0.2 rounded border border-cyan-800">Hub</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/#calculator" className="hover:text-cyan-400 transition-colors">
                   Калькулятор проекта
                 </Link>

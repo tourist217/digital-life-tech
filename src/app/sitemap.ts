@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { casesData } from '@/data/cases';
 import { postsData } from '@/data/posts';
+import { glossaryData } from '@/data/glossary';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://digital-life.tech';
@@ -24,6 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily',
       priority: 0.9,
     },
+    {
+      url: `${baseUrl}/glossary`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
   ];
 
   const casePages: MetadataRoute.Sitemap = casesData.map((c) => ({
@@ -40,5 +47,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticPages, ...casePages, ...blogPages];
+  const glossaryPages: MetadataRoute.Sitemap = glossaryData.map((t) => ({
+    url: `${baseUrl}/glossary/${t.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly',
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...casePages, ...blogPages, ...glossaryPages];
 }
