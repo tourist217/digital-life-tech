@@ -14,6 +14,19 @@ interface JsonLdProps {
 export default function JsonLd({ type = 'home', articleData }: JsonLdProps) {
   const domain = 'https://digital-life.tech';
 
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${domain}/#website`,
+    url: domain,
+    name: 'DigitalLife Tech',
+    description: 'Лаборатория вайбкодинга и AI-разработки цифровых продуктов',
+    publisher: {
+      '@id': `${domain}/#organization`,
+    },
+    inLanguage: 'ru-RU',
+  };
+
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
@@ -80,6 +93,10 @@ export default function JsonLd({ type = 'home', articleData }: JsonLdProps) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

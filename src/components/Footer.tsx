@@ -121,6 +121,14 @@ export default function Footer() {
                   Sitemap XML
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/privacy"
+                  className="text-xs text-slate-400 hover:text-cyan-400 underline underline-offset-2"
+                >
+                  Политика конфиденциальности и cookie
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

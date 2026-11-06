@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
 import YandexMetrika from '@/components/YandexMetrika';
+import CookieBanner from '@/components/CookieBanner';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://digital-life.tech'),
@@ -74,6 +75,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <CookieBanner />
       </body>
     </html>
   );
